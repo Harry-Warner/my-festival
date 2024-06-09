@@ -30,7 +30,7 @@ type Lineup = {
 
 
 
-export default async function Day(params: any) {
+export default async function Day({ params }: { params: { slug: string } }) {
   const lineup = await fs.promises.readFile(path.join(process.cwd(), "public", "glastonbury2024.csv"), "utf-8");
   const config = await fs.promises.readFile(path.join(process.cwd(), "public", "config.json"), "utf-8");
   const parsedData = lineup.split("\n").slice(1);
@@ -38,9 +38,6 @@ export default async function Day(params: any) {
   for (const line of parsedData) {
     if (!line) continue;
     const [artist, day, time, stage, genre] = line.split(",");
-    const is = /^\d+:\d+-\d+:\d+$/.test(time);
-    if (!is) console.log(`FAIL: ${line}`);
-    else console.log(`PASS: ${line}`);
     allEvents.push({ day, time: literal.parse(time), stage, artist, genre: genre.trim() });
   }
   const { dayStartAt, dayEndAt, stages, genreColours } = JSON.parse(config) as Lineup;
