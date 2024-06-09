@@ -47,11 +47,11 @@ export default async function Day({ params }: { params: { slug: string } }) {
   const hours = hourEnd < hourStart ? Array.from({ length: 24 - hourStart + hourEnd + 1 }, (_, i) => (hourStart + i) % 24) : Array.from({ length: hourEnd - hourStart + 1 }, (_, i) => hourStart + i);
 
   return (
-    <div className="flex flex-col w-fit">
+    <div className="flex flex-col max-w-screen max-h-screen overflow-hidden">
         <NavBar />
-        <div className="w-fit gap-0.5" style={{
+        <div className="max-w-screen gap-0.5 overflow-auto" style={{
             display: "grid",
-            gridTemplateColumns: ` 50px repeat(${stages.length}, 250px)`,
+            gridTemplateColumns: ` 50px repeat(${stages.length}, 238px)`,
             gridTemplateRows: `50px repeat(${(hours.length * 4) + 1}, 12px)`,
             gridAutoFlow: "column"
         }}>
@@ -66,20 +66,24 @@ export default async function Day({ params }: { params: { slug: string } }) {
                     }}
                 />
             ))}
-            {hours.map((hour, index) => (
-                <div style={{ gridRowStart: (index * 4) + 2, gridRowEnd: (index * 4) + 3, gridColumnStart: 1, gridColumnEnd: 2, marginTop: "-13px" }} className="bg-indigo-50" key={hour}><p>{hour}</p></div>
-            ))}
-            {stages.map((stage, index) => (
-                <div style={{ gridColumnStart: index + 2, gridColumnEnd: index + 3, gridRowStart: 1, gridRowEnd: 2 }} className="bg-indigo-200 flex justify-center items-center" key={stage}>{stage}</div>
-            ))}
+            <div className="sticky row-start-2 col-start-1 grid gap-0.5 left-0 bg-indigo-50" style={{ gridRowEnd: (hours.length * 4) + 3, gridTemplateRows: `repeat(${(hours.length * 4) + 1}, 12px)` }}>
+              {hours.map((hour, index) => (
+                  <div style={{ gridRowStart: (index * 4) + 2, gridRowEnd: (index * 4) + 3, marginTop: "-13px" }} className="bg-indigo-50" key={hour}><p>{hour}</p></div>
+              ))}
+            </div>
+            <div className="sticky col-start-2 flex top-0" style={{ gridColumnEnd: stages.length }}>
+              {stages.map((stage, index) => (
+                  <div  className="bg-indigo-200 flex justify-center items-center min-w-60" key={stage}>{stage}</div>
+              ))}
+            </div>
             {events.map((event) => {
               const stageIndex = stages.findIndex(s => s.toLowerCase() === event.stage.toLowerCase());
               const startHour = hours.findIndex(hour => hour === parseInt(event.time.split(":")[0])) * 4;
               const startMinutes = parseInt(event.time.split(":")[1]);
-              const rowStart = Math.floor((startMinutes === 0 ? startHour : startHour + (startMinutes * (4 / 60))) + 2);
+              const rowStart = Math.floor((startMinutes === 0 ? startHour : startHour + (startMinutes * (4 / 60))) + 3);
               const endHour = hours.findIndex(hour => hour === parseInt(event.time.split("-")[1].split(":")[0])) * 4;
               const endMinutes = parseInt(event.time.split("-")[1].split(":")[1]);
-              const rowEnd = Math.floor((endMinutes === 0 ? endHour : endHour + (endMinutes * (4 / 60))) + 2);
+              const rowEnd = Math.floor((endMinutes === 0 ? endHour : endHour + (endMinutes * (4 / 60))) + 3);
               return (
                 <div style={{ gridColumn: `${stageIndex + 2} / ${stageIndex + 3}`, gridRow: `${rowStart} / ${rowEnd}`, backgroundColor: genreColours[event.genre] }} className="flex justify-center items-center rounded-md" key={event.artist}>
                     <p className="text-sm text-center">{event.artist} <br /> <span>{event.time}</span></p>
