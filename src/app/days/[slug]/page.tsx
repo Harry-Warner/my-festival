@@ -51,7 +51,7 @@ export default async function Day({ params }: { params: { slug: string } }) {
         <NavBar />
         <div className="max-w-screen gap-0.5 overflow-auto" style={{
             display: "grid",
-            gridTemplateColumns: ` 50px repeat(${stages.length}, 238px)`,
+            gridTemplateColumns: ` 50px repeat(${stages.length}, 240px)`,
             gridTemplateRows: `50px repeat(${(hours.length * 4) + 1}, 12px)`,
             gridAutoFlow: "column"
         }}>
@@ -71,7 +71,7 @@ export default async function Day({ params }: { params: { slug: string } }) {
                   <div style={{ gridRowStart: (index * 4) + 2, gridRowEnd: (index * 4) + 3, marginTop: "-13px" }} className="bg-indigo-50" key={hour}><p>{hour}</p></div>
               ))}
             </div>
-            <div className="sticky col-start-2 flex top-0" style={{ gridColumnEnd: stages.length }}>
+            <div className="sticky col-start-2 flex top-0 gap-0.5" style={{ gridColumnEnd: stages.length }}>
               {stages.map((stage, index) => (
                   <div  className="bg-indigo-200 flex justify-center items-center min-w-60" key={stage}>{stage}</div>
               ))}
