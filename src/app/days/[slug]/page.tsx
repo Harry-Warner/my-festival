@@ -2,8 +2,6 @@ import React from 'react';
 import { NavBar } from '@/components/nav';
 import fs from "fs";
 import { z } from "zod";
-import "../../../data/glastonbury2024.csv";
-import "../../../data/config.json";
 
 const literal = z.custom<`${number}:${number}-${number}:${number}`>((val) =>
   /^\d+:\d+-\d+:\d+$/.test(val as string), {message: "Invalid time format. Should look like this: '12:00-13:00'"}
@@ -32,8 +30,8 @@ type Lineup = {
 
 
 export default async function Day({ params }: { params: { slug: string } }) {
-  const lineup = await fs.promises.readFile("src/data/glastonbury2024.csv", "utf-8");
-  const config = await fs.promises.readFile("src/data/config.json", "utf-8");
+  const lineup = await fs.promises.readFile("./glastonbury2024.csv", "utf-8");
+  const config = await fs.promises.readFile("./config.json", "utf-8");
   const parsedData = lineup.split("\n").slice(1);
   const allEvents: Event[] = [];
   for (const line of parsedData) {
