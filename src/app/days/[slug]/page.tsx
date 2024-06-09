@@ -1,34 +1,9 @@
 import React from 'react';
 import { NavBar } from '@/components/nav';
 import fs from "fs";
-import { z } from "zod";
 import path from 'path';
-
-const literal = z.custom<`${number}:${number}-${number}:${number}`>((val) =>
-  /^\d+:\d+-\d+:\d+$/.test(val as string), {message: "Invalid time format. Should look like this: '12:00-13:00'"}
-);
-
-type Event = {
-  day: string,
-  time: typeof literal._type,
-  stage: string,
-  artist: string;
-  genre: string;
-}
-
-type GenreColours = Record<string, string>
-
-type Lineup = {
-  dayStartAt: `${number}:${number}`;
-  dayEndAt: `${number}:${number}`;
-  days: string[];
-  stages: string[];
-  events: Event[];
-  genreColours: GenreColours;
-}
-
-
-
+import { Key } from '@/components/key';
+import { Lineup, literal, Event } from '@/types';
 
 export default async function Day({ params }: { params: { slug: string } }) {
   const lineup = await fs.promises.readFile(path.join(process.cwd(), "public", "glastonbury2024.csv"), "utf-8");
@@ -91,6 +66,7 @@ export default async function Day({ params }: { params: { slug: string } }) {
               )
             })}
         </div>
+        <Key genreColours={genreColours} />
     </div>
   );
 }
