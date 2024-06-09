@@ -58,7 +58,7 @@ export default async function Day({ params }: { params: { slug: string } }) {
             {Array.from({ length: ((hours.length * 4) + 1) * (stages.length + 1) }, (_, i) => (
                 <div
                     key={i}
-                    className="grid-item bg-indigo-50"
+                    className="grid-item bg-sky-50"
                     style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -66,14 +66,14 @@ export default async function Day({ params }: { params: { slug: string } }) {
                     }}
                 />
             ))}
-            <div className="sticky row-start-2 col-start-1 grid gap-0.5 left-0 bg-indigo-50" style={{ gridRowEnd: (hours.length * 4) + 3, gridTemplateRows: `repeat(${(hours.length * 4) + 1}, 12px)` }}>
+            <div className="sticky row-start-2 col-start-1 grid gap-0.5 left-0 bg-sky-50" style={{ gridRowEnd: (hours.length * 4) + 3, gridTemplateRows: `repeat(${(hours.length * 4) + 1}, 12px)` }}>
               {hours.map((hour, index) => (
-                  <div style={{ gridRowStart: (index * 4) + 2, gridRowEnd: (index * 4) + 3, marginTop: "-13px" }} className="bg-indigo-50" key={hour}><p>{hour}</p></div>
+                  <div style={{ gridRowStart: (index * 4) + 2, gridRowEnd: (index * 4) + 3, marginTop: "-13px" }} className="bg-sky-50" key={hour}><p>{hour}</p></div>
               ))}
             </div>
             <div className="sticky col-start-2 flex top-0 gap-0.5" style={{ gridColumnEnd: stages.length }}>
               {stages.map((stage, index) => (
-                  <div  className="bg-indigo-200 flex justify-center items-center min-w-60" key={stage}>{stage}</div>
+                  <div  className="bg-sky-200 flex justify-center items-center min-w-60" key={stage}>{stage}</div>
               ))}
             </div>
             {events.map((event) => {
