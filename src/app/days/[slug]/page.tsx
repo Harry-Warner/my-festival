@@ -2,8 +2,8 @@ import React from 'react';
 import { NavBar } from '@/components/nav';
 import fs from "fs";
 import { z } from "zod";
-import "src/data/glastonbury2024.csv";
-import "src/data/config.json";
+import "../../../data/glastonbury2024.csv";
+import "../../../data/config.json";
 
 const literal = z.custom<`${number}:${number}-${number}:${number}`>((val) =>
   /^\d+:\d+-\d+:\d+$/.test(val as string), {message: "Invalid time format. Should look like this: '12:00-13:00'"}
