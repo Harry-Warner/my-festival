@@ -1,0 +1,12 @@
+{
+    "dayStartAt": "11:00",
+    "dayEndAt": "06:00",
+    "days": ["wednesday", "thursday", "friday", "saturday", "sunday"],
+    "stages": ["Pyramid", "Other", "West Holts", "Woodsies", "Park", "Avalon", "Levels", "Glade", "Arcadia", "San Remo", "Stonebridge", "Greenpeace", "Assembly", "Bimble Inn", "Glade dome", "Platform 23", "Croissant Neuf", "Peace", "Lonely Hearts club"],
+    "genreColours": {
+        "Dance/Electronica": "#0FF0FC",
+        "Indie/Folk": "#DAF7A6",
+        "R&B/Rap": "#FF4433",
+        "Pop/Disco": "#FFB6C1"
+    }
+}
