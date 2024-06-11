@@ -2,7 +2,7 @@ import React from 'react';
 import { NavBar } from '@/components/nav';
 import fs from "fs";
 import path from 'path';
-import { Key } from '@/components/key';
+import { Interactions } from '@/components/interactions';
 import { Lineup, literal, Event } from '@/types';
 
 export default async function Day({ params }: { params: { slug: string } }) {
@@ -26,8 +26,8 @@ export default async function Day({ params }: { params: { slug: string } }) {
         <NavBar />
         <div className="max-w-screen gap-0.5 overflow-auto" style={{
             display: "grid",
-            gridTemplateColumns: ` 50px repeat(${stages.length}, 10rem)`,
-            gridTemplateRows: `50px repeat(${(hours.length * 4) + 1}, 8px)`,
+            gridTemplateColumns: ` 44px repeat(${stages.length}, 10rem)`,
+            gridTemplateRows: `44px repeat(${(hours.length * 4) + 1}, 8px)`,
             gridAutoFlow: "column"
         }}>
             {Array.from({ length: ((hours.length * 4) + 1) * (stages.length + 1) }, (_, i) => (
@@ -66,7 +66,7 @@ export default async function Day({ params }: { params: { slug: string } }) {
               )
             })}
         </div>
-        <Key genreColours={genreColours} />
+        <Interactions genreColours={genreColours} />
     </div>
   );
 }
