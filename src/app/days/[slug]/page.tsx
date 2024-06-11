@@ -26,8 +26,8 @@ export default async function Day({ params }: { params: { slug: string } }) {
         <NavBar />
         <div className="max-w-screen gap-0.5 overflow-auto" style={{
             display: "grid",
-            gridTemplateColumns: ` 50px repeat(${stages.length}, 240px)`,
-            gridTemplateRows: `50px repeat(${(hours.length * 4) + 1}, 12px)`,
+            gridTemplateColumns: ` 50px repeat(${stages.length}, 192px)`,
+            gridTemplateRows: `50px repeat(${(hours.length * 4) + 1}, 10px)`,
             gridAutoFlow: "column"
         }}>
             {Array.from({ length: ((hours.length * 4) + 1) * (stages.length + 1) }, (_, i) => (
@@ -48,7 +48,7 @@ export default async function Day({ params }: { params: { slug: string } }) {
             </div>
             <div className="sticky col-start-2 flex top-0 gap-0.5" style={{ gridColumnEnd: stages.length }}>
               {stages.map((stage, index) => (
-                  <div  className="bg-sky-200 flex justify-center items-center min-w-60" key={stage}>{stage}</div>
+                  <div  className="bg-sky-200 flex justify-center items-center min-w-48" key={stage}>{stage}</div>
               ))}
             </div>
             {events.map((event) => {
@@ -61,7 +61,7 @@ export default async function Day({ params }: { params: { slug: string } }) {
               const rowEnd = Math.floor((endMinutes === 0 ? endHour : endHour + (endMinutes * (4 / 60))) + 3);
               return (
                 <div style={{ gridColumn: `${stageIndex + 2} / ${stageIndex + 3}`, gridRow: `${rowStart} / ${rowEnd}`, backgroundColor: genreColours[event.genre] }} className="flex justify-center items-center rounded-md" key={event.artist}>
-                    <p className="text-sm text-center">{event.artist} <br /> <span>{event.time}</span></p>
+                    <p style={{color: getTextColour(genreColours[event.genre])}} className="text-sm text-center">{event.artist} <br /> <span>{event.time}</span></p>
                 </div>
               )
             })}
@@ -69,4 +69,19 @@ export default async function Day({ params }: { params: { slug: string } }) {
         <Key genreColours={genreColours} />
     </div>
   );
+}
+
+function getTextColour(bgColour: string) {
+  const isHex = /^#[0-9A-F]{6}$/i.test(bgColour);
+  if (!isHex) return "#000000"; // "black
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(bgColour);
+  const rgb = result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+  if (!rgb) return "#000000"; // "black"
+  // Luminance formula from RGB. Photometric/digital ITU BT.709:
+  const luma = 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
+  return luma > 165 ? "#000" : "#fff";
 }
