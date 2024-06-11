@@ -43,7 +43,7 @@ export default async function Day({ params }: { params: { slug: string } }) {
             ))}
             <div className="sticky row-start-2 col-start-1 grid gap-0.5 left-0 bg-sky-50" style={{ gridRowEnd: (hours.length * 4) + 3, gridTemplateRows: `repeat(${(hours.length * 4) + 1}, 8px)` }}>
               {hours.map((hour, index) => (
-                  <div style={{ gridRowStart: (index * 4) + 2, gridRowEnd: (index * 4) + 3, marginTop: "-13px" }} className="bg-sky-50" key={hour}><p className="text-center text-sm">{hour}</p></div>
+                  <div style={{ gridRowStart: (index * 4) + 2, gridRowEnd: (index * 4) + 3, marginTop: "-10px" }} className="bg-sky-50" key={hour}><p className="text-center text-sm">{hour}</p></div>
               ))}
             </div>
             <div className="sticky col-start-2 flex top-0 gap-0.5" style={{ gridColumnEnd: stages.length }}>
