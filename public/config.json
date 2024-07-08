@@ -3,13 +3,13 @@
     "dayEndAt": "06:00",
     "days": ["wednesday", "thursday", "friday", "saturday", "sunday"],
     "stages": {
-        "Woodsies": ["Woodsies"],
-        "Silver hayes": ["Levels", "San Remo", "Assembly", "Lonely Hearts club"],
         "Main": ["Pyramid"],
         "Other": ["Other"],
+        "Woodsies": ["Woodsies"],
         "West Holts": ["West Holts"],
-        "Glade": ["Glade", "Glade dome"],
         "The Park": ["Arcadia", "Park", "Stonebridge", "Bimble Inn"],
+        "Glade": ["Glade", "Glade dome"],
+        "Silver hayes": ["Levels", "San Remo", "Assembly", "Lonely Hearts club"],
         "Green fields": ["Avalon", "Greenpeace", "Croissant Neuf"],
         "Shangri-la": ["Peace", "Platform 23"]
 
