@@ -15,7 +15,8 @@ export default async function Day({ params }: { params: { slug: string } }) {
     const [artist, day, time, stage, genre] = line.split(",");
     allEvents.push({ day, time: literal.parse(time), stage, artist, genre: genre.trim() });
   }
-  const { dayStartAt, dayEndAt, stages, genreColours } = JSON.parse(config) as Lineup;
+  const { dayStartAt, dayEndAt, stages: stageConfig, genreColours } = JSON.parse(config) as Lineup;
+  const stages = Object.values(stageConfig).flatMap(group => group);
   const events = allEvents.filter((event) => event.day?.toLowerCase() === params.slug?.toLowerCase());
   const hourStart = parseInt(dayStartAt.split(":")[0]);
   const hourEnd = parseInt(dayEndAt.split(":")[0]);
@@ -26,11 +27,11 @@ export default async function Day({ params }: { params: { slug: string } }) {
         <NavBar />
         <div className="max-w-screen gap-0.5 overflow-auto" style={{
             display: "grid",
-            gridTemplateColumns: ` 44px repeat(${stages.length}, 10rem)`,
-            gridTemplateRows: `44px repeat(${(hours.length * 4) + 1}, 8px)`,
+            gridTemplateColumns: `44px repeat(${stages.length}, 10rem)`,
+            gridTemplateRows: `20px 44px repeat(${(hours.length * 4) + 1}, 8px)`,
             gridAutoFlow: "column"
         }}>
-            {Array.from({ length: ((hours.length * 4) + 1) * (stages.length + 1) }, (_, i) => (
+            {Array.from({ length: ((hours.length * 4) + 2) * (stages.length + 1) }, (_, i) => (
                 <div
                     key={i}
                     className="grid-item bg-sky-50"
@@ -41,12 +42,17 @@ export default async function Day({ params }: { params: { slug: string } }) {
                     }}
                 />
             ))}
-            <div className="sticky row-start-2 col-start-1 grid gap-0.5 left-0 bg-sky-50" style={{ gridRowEnd: (hours.length * 4) + 3, gridTemplateRows: `repeat(${(hours.length * 4) + 1}, 8px)` }}>
+            <div className="sticky row-start-3 col-start-1 grid gap-0.5 left-0 bg-sky-50" style={{ gridRowEnd: (hours.length * 4) + 3, gridTemplateRows: `repeat(${(hours.length * 4) + 1}, 8px)` }}>
               {hours.map((hour, index) => (
                   <div style={{ gridRowStart: (index * 4) + 2, gridRowEnd: (index * 4) + 3, marginTop: "-10px" }} className="bg-sky-50" key={hour}><p className="text-center text-sm">{hour}</p></div>
               ))}
             </div>
             <div className="sticky col-start-2 flex top-0 gap-0.5" style={{ gridColumnEnd: stages.length }}>
+              {Object.entries(stageConfig).map(([cluster, stages], index) => (
+                  <div className="bg-sky-200 flex justify-center items-center" style={{minWidth: `calc(${10 * stages.length}rem + ${(2 * (stages.length - 1))}px)`}} key={cluster}>{cluster}</div>
+              ))}
+            </div>
+            <div className="sticky row-start-2 col-start-2 flex top-0 gap-0.5" style={{ gridColumnEnd: stages.length }}>
               {stages.map((stage, index) => (
                   <div  className="bg-sky-200 flex justify-center items-center min-w-40" key={stage}>{stage}</div>
               ))}
@@ -55,10 +61,10 @@ export default async function Day({ params }: { params: { slug: string } }) {
               const stageIndex = stages.findIndex(s => s.toLowerCase() === event.stage.toLowerCase());
               const startHour = hours.findIndex(hour => hour === parseInt(event.time.split(":")[0])) * 4;
               const startMinutes = parseInt(event.time.split(":")[1]);
-              const rowStart = Math.floor((startMinutes === 0 ? startHour : startHour + (startMinutes * (4 / 60))) + 3);
+              const rowStart = Math.floor((startMinutes === 0 ? startHour : startHour + (startMinutes * (4 / 60))) + 4);
               const endHour = hours.findIndex(hour => hour === parseInt(event.time.split("-")[1].split(":")[0])) * 4;
               const endMinutes = parseInt(event.time.split("-")[1].split(":")[1]);
-              const rowEnd = Math.floor((endMinutes === 0 ? endHour : endHour + (endMinutes * (4 / 60))) + 3);
+              const rowEnd = Math.floor((endMinutes === 0 ? endHour : endHour + (endMinutes * (4 / 60))) + 4);
               return (
                 <div style={{ gridColumn: `${stageIndex + 2} / ${stageIndex + 3}`, gridRow: `${rowStart} / ${rowEnd}`, backgroundColor: genreColours[event.genre] }} className="flex justify-center items-center rounded-md" key={event.artist}>
                     <p style={{color: getTextColour(genreColours[event.genre])}} className="text-xs text-center">{event.artist} <br /> <span>{event.time}</span></p>

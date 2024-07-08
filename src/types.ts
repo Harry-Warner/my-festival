@@ -18,7 +18,7 @@ export const literal = z.custom<`${number}:${number}-${number}:${number}`>((val)
     dayStartAt: `${number}:${number}`;
     dayEndAt: `${number}:${number}`;
     days: string[];
-    stages: string[];
+    stages: Record<string, string[]>;
     events: Event[];
     genreColours: GenreColours;
   }
